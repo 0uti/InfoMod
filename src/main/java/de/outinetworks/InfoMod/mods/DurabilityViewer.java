@@ -24,7 +24,7 @@ public class DurabilityViewer
 	{
 		MC = mc;
 		itemRender = MC.getRenderItem();
-		ScaledResolution scaled = new ScaledResolution(MC,this.MC.displayWidth,this.MC.displayHeight);
+		ScaledResolution scaled = new ScaledResolution(MC);
 		width = scaled.getScaledWidth();
 		height = scaled.getScaledHeight();
 		

@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class InfoMod
 {
     public static final String MODID = "InfoMod";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.1";
     
     // The Keys used in the game.
 	public static KeyBinding SpawnOverlayKey;
@@ -40,7 +40,7 @@ public class InfoMod
 		if(event.getSide() == Side.CLIENT){
 			MinecraftForge.EVENT_BUS.register(new GUIHandlers());
 			
-			FMLCommonHandler.instance().bus().register(new KeyPressHandler());
+			MinecraftForge.EVENT_BUS.register(new KeyPressHandler());
 			
 			// SpawnOverlay
 			SpawnOverlayKey = new KeyBinding("key.spawn_overlay", Keyboard.KEY_F7, "key.categories.infomod");

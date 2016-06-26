@@ -22,7 +22,7 @@ public class AnimalInfo {
 	public static void renderInfoBox(Entity entity)
 	{
 		MC = Minecraft.getMinecraft();
-		ScaledResolution scaled = new ScaledResolution(MC,MC.displayWidth,MC.displayHeight);
+		ScaledResolution scaled = new ScaledResolution(MC);
 		width = scaled.getScaledWidth();
 		height = scaled.getScaledHeight();
 		
