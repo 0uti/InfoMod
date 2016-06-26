@@ -25,7 +25,7 @@ public class GUIHandlers
 		
 		GL11.glPushMatrix();
 		// Map GL Output to Player Position
-		WCoordMatch(entity, event.partialTicks);
+		WCoordMatch(entity, event.getPartialTicks());
 		
 		ChunkOverlay.renderBounds(entity);
 		SpawnOverlay.renderLighting(entity);
@@ -35,7 +35,7 @@ public class GUIHandlers
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onRenderGui(RenderGameOverlayEvent.Post event)
 	{
-		if(event.isCancelable() || event.type != ElementType.ALL)     
+		if(event.isCancelable() || event.getType() != ElementType.ALL)     
 			return;
 	
 		new DurabilityViewer(Minecraft.getMinecraft());

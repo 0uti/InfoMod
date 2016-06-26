@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -51,7 +51,7 @@ public class DurabilityViewer
 					
 					MC.fontRendererObj.drawString(Integer.toString(damage), (((width / 2) - 88) + (SlotID * 20)) * 2, (height - 18) * 2, color);
 					
-					if (HotbarItem.getItem().equals(Items.bow))
+					if (HotbarItem.getItem().equals(Items.BOW))
 					{
 						int ArrowCount = GetIventoryArrowCount(player);
 						
@@ -109,7 +109,7 @@ public class DurabilityViewer
 		for (int Slot = 0; Slot < player.inventory.getSizeInventory(); Slot++)
 		{
 			ItemStack Stack = player.inventory.getStackInSlot(Slot);
-			if (Stack != null && Stack.getItem().equals(Items.arrow))
+			if (Stack != null && Stack.getItem().equals(Items.ARROW))
 				count += Stack.stackSize;
 		}
 		return count;
@@ -122,7 +122,7 @@ public class DurabilityViewer
 			NBTTagList enchlist = item.getEnchantmentTagList();
 			for(int i = 0; i < enchlist.tagCount(); i++)
 	        {
-				if (enchlist.getCompoundTagAt(i).getShort("id") == Enchantment.infinity.effectId)
+				if (enchlist.getCompoundTagAt(i).getShort("id") == Enchantment.getEnchantmentID(Enchantment.getEnchantmentByLocation("infinity")))
 					return true;
 	        }
 			return false;

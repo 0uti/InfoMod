@@ -49,7 +49,7 @@ public class AnimalInfo {
 	        
 	        MC.fontRendererObj.drawString("Jump: " + String.format("%.1f", round(jumpHeight,1)) + " blocks", (width / 2) + 5, (height/2) + 5, 0xffffff);
 	        MC.fontRendererObj.drawString("Health: " + String.format("%.0f", round(Horse.getMaxHealth(),0)), (width / 2) + 5, (height/2) + 15, 0xffffff);
-	        MC.fontRendererObj.drawString("Speed: " + String.format("%.1f", round((float)Horse.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue() * 43 ,1)) + " blocks/sec", (width / 2) + 5, (height/2) + 25, 0xffffff);
+	        MC.fontRendererObj.drawString("Speed: " + String.format("%.1f", round((float)Horse.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() * 43 ,1)) + " blocks/sec", (width / 2) + 5, (height/2) + 25, 0xffffff);
 	        
 	        GlStateManager.enableDepth();
 	        GL11.glPopMatrix();

@@ -7,12 +7,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving.SpawnPlacementType;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.SpawnerAnimals;
+import net.minecraft.world.WorldEntitySpawner;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 
 public class SpawnOverlay
@@ -52,7 +52,7 @@ public class SpawnOverlay
             {
                 BlockPos pos = new BlockPos(x, y1, z);
                 Chunk chunk = world.getChunkFromBlockCoords(pos);
-                BiomeGenBase biome = world.getBiomeGenForCoords(pos);
+                Biome biome = world.getBiomeGenForCoords(pos);
                 if (biome.getSpawnableList(EnumCreatureType.MONSTER).isEmpty() || biome.getSpawningChance() <= 0) continue;
 
                 for (int y = y1 - 16; y < y1 + 16; y++)
@@ -79,14 +79,14 @@ public class SpawnOverlay
         BlockPos pos = new BlockPos(x, y, z);
         
         // can Spawn something on Block / World ?
-        if (!SpawnerAnimals.canCreatureTypeSpawnAtLocation(SpawnPlacementType.ON_GROUND, world, pos) || chunk.getLightFor(EnumSkyBlock.BLOCK, pos) >= 8) return 0;
+        if (!WorldEntitySpawner.canCreatureTypeSpawnAtLocation(SpawnPlacementType.ON_GROUND, world, pos) || chunk.getLightFor(EnumSkyBlock.BLOCK, pos) >= 8) return 0;
 
-        AxisAlignedBB aabb = AxisAlignedBB.fromBounds(x+0.2, y+0.01, z+0.2, x+0.8, y+1.8, z+0.8);
+        AxisAlignedBB aabb = new AxisAlignedBB(x+0.2, y+0.01, z+0.2, x+0.8, y+1.8, z+0.8);
         
         // enough space for Spawn ? is liquid ?
         if (!world.checkNoEntityCollision(aabb) ||
-                !world.getCollidingBoundingBoxes(dummyEntity, aabb).isEmpty() ||
-                world.isAnyLiquid(aabb))
+                !world.getCollisionBoxes(dummyEntity, aabb).isEmpty() ||
+                world.containsAnyLiquid(aabb))
             return 0;
         
         // sky visible ?
