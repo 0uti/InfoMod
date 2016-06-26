@@ -1,0 +1,16 @@
+[
+{
+  "modid": "InfoMod",
+  "name": "InfoMod",
+  "description": "InfoMod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Outi"],
+  "credits": "42!",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
