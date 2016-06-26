@@ -4,20 +4,14 @@ import org.lwjgl.input.Keyboard;
 
 import de.outinetworks.InfoMod.events.GUIHandlers;
 import de.outinetworks.InfoMod.events.KeyPressHandler;
-
-
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 @Mod(modid = InfoMod.MODID, version = InfoMod.VERSION, clientSideOnly = true)
@@ -42,13 +36,11 @@ public class InfoMod
         // saving the configuration to its file
         config.save();
 		
-		
 		// Only Client Side
 		if(event.getSide() == Side.CLIENT){
 			MinecraftForge.EVENT_BUS.register(new GUIHandlers());
 			
 			FMLCommonHandler.instance().bus().register(new KeyPressHandler());
-			//MinecraftForge.EVENT_BUS.register(new KeyPressHandler());
 			
 			// SpawnOverlay
 			SpawnOverlayKey = new KeyBinding("key.spawn_overlay", Keyboard.KEY_F7, "key.categories.infomod");

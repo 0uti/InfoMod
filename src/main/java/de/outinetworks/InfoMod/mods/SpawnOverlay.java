@@ -2,8 +2,6 @@ package de.outinetworks.InfoMod.mods;
 
 import org.lwjgl.opengl.GL11;
 
-import de.outinetworks.InfoMod.util.Vec6;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving.SpawnPlacementType;
@@ -19,19 +17,15 @@ import net.minecraft.world.chunk.Chunk;
 
 public class SpawnOverlay
 {
-
+	
 	public static boolean Enabled = false;
 	private static double dMarkerOffset = 0.02;
 	private static Entity dummyEntity = new EntityPig(null);
-	private static Vec6 c = new Vec6();
-	
-	
 	
 	public static void ToggleEnabled()
     {
     	Enabled = !Enabled;	
     }
-	
 	
 	public static void renderLighting(Entity entity)
 	{
@@ -49,7 +43,6 @@ public class SpawnOverlay
         int z1 = (int) entity.posZ;
         int y1 = (int) normalize(entity.posY, 16, world.getHeight() - 16);
 
-        
         // 16 blocks in each direction
         // make it configable ?
         
@@ -88,8 +81,7 @@ public class SpawnOverlay
         // can Spawn something on Block / World ?
         if (!SpawnerAnimals.canCreatureTypeSpawnAtLocation(SpawnPlacementType.ON_GROUND, world, pos) || chunk.getLightFor(EnumSkyBlock.BLOCK, pos) >= 8) return 0;
 
-        c.set(x+0.2, y+0.01, z+0.2, x+0.8, y+1.8, z+0.8);
-        AxisAlignedBB aabb = c.aabb();
+        AxisAlignedBB aabb = AxisAlignedBB.fromBounds(x+0.2, y+0.01, z+0.2, x+0.8, y+1.8, z+0.8);
         
         // enough space for Spawn ? is liquid ?
         if (!world.checkNoEntityCollision(aabb) ||
