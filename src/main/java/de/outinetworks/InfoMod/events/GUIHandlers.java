@@ -24,14 +24,16 @@ public class GUIHandlers
 
 	@SubscribeEvent
     public void tickEvent(RenderWorldLastEvent event)
-	{
+    {
     	Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
     	
+    	GL11.glPushMatrix();
     	// Map GL Output to Player Position
         WCoordMatch(entity, event.partialTicks);
         
     	ChunkOverlay.renderBounds(entity);
     	SpawnOverlay.renderLighting(entity);
+    	GL11.glPopMatrix();
     }
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
