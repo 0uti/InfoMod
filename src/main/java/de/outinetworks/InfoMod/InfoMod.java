@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class InfoMod
 {
     public static final String MODID = "InfoMod";
-    public static final String VERSION = "1.1";
+    public static final String VERSION = "1.3";
     
     // The Keys used in the game.
 	public static KeyBinding SpawnOverlayKey;
