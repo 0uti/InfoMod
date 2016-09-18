@@ -25,11 +25,15 @@ public class AnimalInfo {
 		ScaledResolution scaled = new ScaledResolution(MC);
 		width = scaled.getScaledWidth();
 		height = scaled.getScaledHeight();
-		
-		Entity target = Minecraft.getMinecraft().objectMouseOver.entityHit;
+		Entity target = null;
+		try {
+			target = Minecraft.getMinecraft().objectMouseOver.entityHit;
+		}
+		catch(Exception e) {
+			
+		}
 		if (target == null) return;
 		if (!(target instanceof EntityLiving)) return ;
-		
 		if (target instanceof EntityHorse)
 		{
 			EntityHorse Horse = (EntityHorse) target;
@@ -54,6 +58,7 @@ public class AnimalInfo {
 	        GlStateManager.enableDepth();
 	        GL11.glPopMatrix();
 		}
+		
 	}
 	
 	public static double round(double value, int places) {
