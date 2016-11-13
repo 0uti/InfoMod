@@ -41,15 +41,8 @@ public class AnimalInfo {
 			GL11.glPushMatrix();
 	        GlStateManager.disableDepth();
 	        GL11.glScalef(1F, 1F, 1F);
-	       
-	        double yVelocity = Horse.getHorseJumpStrength(); //horses's jump strength attribute
-	        double jumpHeight = 0;
-	        while (yVelocity > 0)
-	        {
-		        jumpHeight += yVelocity;
-		        yVelocity -= 0.08;
-		        yVelocity *= 0.98;
-	        }
+	      
+	        double jumpHeight = calcJumpHeight(Horse.getHorseJumpStrength());
 	        
 	        MC.fontRendererObj.drawString("Jump: " + String.format("%.1f", round(jumpHeight,1)) + " blocks", (width / 2) + 5, (height/2) + 5, 0xffffff);
 	        MC.fontRendererObj.drawString("Health: " + String.format("%.0f", round(Horse.getMaxHealth(),0)), (width / 2) + 5, (height/2) + 15, 0xffffff);
@@ -59,6 +52,12 @@ public class AnimalInfo {
 	        GL11.glPopMatrix();
 		}
 		
+	}
+	
+	private static double calcJumpHeight(double jumpStrength)
+	{
+		// JumpHeight = -0.1817584952 * x^3 + 3.689713992 * x^2 + 2.128599134 * x - 0.343930367
+		return (-0.1817584952 * Math.pow(jumpStrength, 3)) + (3.689713992 * Math.pow(jumpStrength, 2)) + (2.128599134 * jumpStrength) - 0.343930367;
 	}
 	
 	public static double round(double value, int places) {
