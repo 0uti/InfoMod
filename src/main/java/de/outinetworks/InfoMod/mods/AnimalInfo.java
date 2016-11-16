@@ -11,7 +11,13 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.passive.AbstractHorse;
+import net.minecraft.entity.passive.EntityDonkey;
 import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.EntityLlama;
+import net.minecraft.entity.passive.EntityMule;
+import net.minecraft.entity.passive.EntitySkeletonHorse;
+import net.minecraft.entity.passive.EntityZombieHorse;
 
 public class AnimalInfo {
 
@@ -26,6 +32,7 @@ public class AnimalInfo {
 		width = scaled.getScaledWidth();
 		height = scaled.getScaledHeight();
 		Entity target = null;
+		
 		try {
 			target = Minecraft.getMinecraft().objectMouseOver.entityHit;
 		}
@@ -33,26 +40,44 @@ public class AnimalInfo {
 			
 		}
 		if (target == null) return;
+		// no players
 		if (!(target instanceof EntityLiving)) return ;
-		if (target instanceof EntityHorse)
-		{
-			EntityHorse Horse = (EntityHorse) target;
-			
-			GL11.glPushMatrix();
-	        GlStateManager.disableDepth();
-	        GL11.glScalef(1F, 1F, 1F);
-	      
-	        double jumpHeight = calcJumpHeight(Horse.getHorseJumpStrength());
-	        
-	        MC.fontRendererObj.drawString("Jump: " + String.format("%.1f", round(jumpHeight,1)) + " blocks", (width / 2) + 5, (height/2) + 5, 0xffffff);
-	        MC.fontRendererObj.drawString("Health: " + String.format("%.0f", round(Horse.getMaxHealth(),0)), (width / 2) + 5, (height/2) + 15, 0xffffff);
-	        MC.fontRendererObj.drawString("Speed: " + String.format("%.1f", round((float)Horse.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() * 43 ,1)) + " blocks/sec", (width / 2) + 5, (height/2) + 25, 0xffffff);
-	        
-	        GlStateManager.enableDepth();
-	        GL11.glPopMatrix();
-		}
 		
+		// is Horse
+		if (target instanceof EntityHorse)  drawInfo((EntityHorse) target);
+		
+		// is Zombie Horse
+		if (target instanceof EntityZombieHorse)  drawInfo((EntityZombieHorse) target);
+		
+		// is Skeleton Horse
+		if (target instanceof EntitySkeletonHorse)  drawInfo((EntitySkeletonHorse) target);
+		
+		// is Donkey
+		if (target instanceof EntityDonkey)  drawInfo((EntityDonkey) target);
+		
+		// is Mule
+		if (target instanceof EntityMule)  drawInfo((EntityMule) target);
+		
+		// is Llama
+		if (target instanceof EntityLlama)  drawInfo((EntityLlama) target);
 	}
+	
+	private static void drawInfo(AbstractHorse animal)
+	{
+		double jumpHeight = calcJumpHeight(animal.getHorseJumpStrength());
+		
+		GL11.glPushMatrix();
+        GlStateManager.disableDepth();
+        GL11.glScalef(1F, 1F, 1F);
+      
+        MC.fontRendererObj.drawString("Jump: " + String.format("%.1f", round(jumpHeight,1)) + " blocks", (width / 2) + 5, (height/2) + 5, 0xffffff);
+        MC.fontRendererObj.drawString("Health: " + String.format("%.0f", round(animal.getMaxHealth(),0)), (width / 2) + 5, (height/2) + 15, 0xffffff);
+        MC.fontRendererObj.drawString("Speed: " + String.format("%.1f", round((float)animal.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() * 43 ,1)) + " blocks/sec", (width / 2) + 5, (height/2) + 25, 0xffffff);
+        
+        GlStateManager.enableDepth();
+        GL11.glPopMatrix();
+	}
+	
 	
 	private static double calcJumpHeight(double jumpStrength)
 	{

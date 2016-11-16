@@ -52,7 +52,7 @@ public class SpawnOverlay
             {
                 BlockPos pos = new BlockPos(x, y1, z);
                 Chunk chunk = world.getChunkFromBlockCoords(pos);
-                Biome biome = world.getBiomeGenForCoords(pos);
+                Biome biome = world.getBiome(pos);
                 if (biome.getSpawnableList(EnumCreatureType.MONSTER).isEmpty() || biome.getSpawningChance() <= 0) continue;
 
                 for (int y = y1 - 16; y < y1 + 16; y++)

@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.NonNullList;
 
 public class DurabilityViewer
 {
@@ -68,14 +69,17 @@ public class DurabilityViewer
         GlStateManager.enableDepth();
         GL11.glPopMatrix();
         
-        DrawArmor(player.inventory.armorInventory);
+        DrawArmor(player.getArmorInventoryList());
 	}
 	
-	private void DrawArmor(ItemStack[] Armor)
+	private void DrawArmor(Iterable<ItemStack> armorInventory)
 	{
-		for(int i = 0; i <= 3;i++)
+		int i = 0;
+		for(ItemStack stack : armorInventory)
 		{
-			DrawArmorItem(Armor[i], 0, 64-((i + 1) * 16));
+			if(stack.func_190916_E() != 0)
+				DrawArmorItem(stack, 0, 64-((i + 1) * 16));
+			i++;
 		}
 	}
 	
@@ -110,7 +114,7 @@ public class DurabilityViewer
 		{
 			ItemStack Stack = player.inventory.getStackInSlot(Slot);
 			if (Stack != null && Stack.getItem().equals(Items.ARROW))
-				count += Stack.stackSize;
+				count += Stack.func_190916_E();
 		}
 		return count;
 	}
