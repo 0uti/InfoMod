@@ -29,7 +29,7 @@ public class DurabilityViewer
 		width = scaled.getScaledWidth();
 		height = scaled.getScaledHeight();
 		
-		EntityPlayer player = MC.thePlayer;
+		EntityPlayer player = MC.player;
 		GL11.glPushMatrix();
         GlStateManager.disableDepth();
         GL11.glScalef(0.5F, 0.5F, 0.5F);
@@ -77,7 +77,7 @@ public class DurabilityViewer
 		int i = 0;
 		for(ItemStack stack : armorInventory)
 		{
-			if(stack.func_190916_E() != 0)
+			if(stack.getCount() != 0)
 				DrawArmorItem(stack, 0, 64-((i + 1) * 16));
 			i++;
 		}
@@ -114,7 +114,7 @@ public class DurabilityViewer
 		{
 			ItemStack Stack = player.inventory.getStackInSlot(Slot);
 			if (Stack != null && Stack.getItem().equals(Items.ARROW))
-				count += Stack.func_190916_E();
+				count += Stack.getCount();
 		}
 		return count;
 	}

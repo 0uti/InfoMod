@@ -31,9 +31,9 @@ if(build_number) {
 }
 
 minecraft {
-    version = "1.11-13.19.0.2130"
+    version = "1.11-13.19.0.2153"
     runDir = "run"
-    mappings = "snapshot_20161111"
+    mappings = "snapshot_20161119"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
