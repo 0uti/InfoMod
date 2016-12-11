@@ -44,9 +44,9 @@ public class ChunkOverlay
                     y2 = dy;
                 }
 
-                if (y1 > entity.world.getHeight())
+                if (y1 > entity.getEntityWorld().getHeight())
                 {
-                    y2 = entity.world.getHeight();
+                    y2 = entity.getEntityWorld().getHeight();
                     y1 = y2 - dy;
                 }
 
@@ -85,9 +85,9 @@ public class ChunkOverlay
                         y2 = dy;
                     }
 
-                    if (y1 > entity.world.getHeight())
+                    if (y1 > entity.getEntityWorld().getHeight())
                     {
-                        y2 = entity.world.getHeight();
+                        y2 = entity.getEntityWorld().getHeight();
                         y1 = y2 - dy;
                     }
                     

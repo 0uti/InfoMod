@@ -38,7 +38,7 @@ public class SpawnOverlay
 
         GlStateManager.color(1, 0, 0);
 
-        World world = entity.world;
+        World world = entity.getEntityWorld();
         int x1 = (int) entity.posX;
         int z1 = (int) entity.posZ;
         int y1 = (int) normalize(entity.posY, 16, world.getHeight() - 16);
