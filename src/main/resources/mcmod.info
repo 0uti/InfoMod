@@ -1,6 +1,6 @@
 [
 {
-  "modid": "InfoMod",
+  "modid": "infomod",
   "name": "InfoMod",
   "description": "InfoMod.",
   "version": "${version}",
