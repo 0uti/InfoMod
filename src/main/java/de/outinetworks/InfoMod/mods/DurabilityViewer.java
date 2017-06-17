@@ -50,16 +50,16 @@ public class DurabilityViewer
 					else
 						color = 0xff0000;
 					
-					MC.fontRendererObj.drawString(Integer.toString(damage), (((width / 2) - 88) + (SlotID * 20)) * 2, (height - 18) * 2, color);
+					MC.fontRenderer.drawString(Integer.toString(damage), (((width / 2) - 88) + (SlotID * 20)) * 2, (height - 18) * 2, color);
 					
 					if (HotbarItem.getItem().equals(Items.BOW))
 					{
 						int ArrowCount = GetIventoryArrowCount(player);
 						
 						if(HasInfinity(HotbarItem) && ArrowCount > 0)
-							MC.fontRendererObj.drawString(Character.toString('\u221e'), (((width / 2) - 78) + (SlotID * 20)) * 2, (height - 10) * 2, 0xdddddd);
+							MC.fontRenderer.drawString(Character.toString('\u221e'), (((width / 2) - 78) + (SlotID * 20)) * 2, (height - 10) * 2, 0xdddddd);
 						else
-							MC.fontRendererObj.drawString(Integer.toString(ArrowCount), (((width / 2) - 83) + (SlotID * 20)) * 2, (height - 10) * 2, 0xdddddd);
+							MC.fontRenderer.drawString(Integer.toString(ArrowCount), (((width / 2) - 83) + (SlotID * 20)) * 2, (height - 10) * 2, 0xdddddd);
 					}
 						
 				}
@@ -100,7 +100,7 @@ public class DurabilityViewer
 			else
 				color = 0xff0000;
 
-			MC.fontRendererObj.drawString(Integer.toString(damage), x + 17, y + 5 , color);
+			MC.fontRenderer.drawString(Integer.toString(damage), x + 17, y + 5 , color);
     	}
         GlStateManager.enableDepth();
         GL11.glPopMatrix();

@@ -70,9 +70,9 @@ public class AnimalInfo {
         GlStateManager.disableDepth();
         GL11.glScalef(1F, 1F, 1F);
       
-        MC.fontRendererObj.drawString("Jump: " + String.format("%.1f", round(jumpHeight,1)) + " blocks", (width / 2) + 5, (height/2) + 5, 0xffffff);
-        MC.fontRendererObj.drawString("Health: " + String.format("%.0f", round(animal.getMaxHealth(),0)), (width / 2) + 5, (height/2) + 15, 0xffffff);
-        MC.fontRendererObj.drawString("Speed: " + String.format("%.1f", round((float)animal.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() * 43 ,1)) + " blocks/sec", (width / 2) + 5, (height/2) + 25, 0xffffff);
+        MC.fontRenderer.drawString("Jump: " + String.format("%.1f", round(jumpHeight,1)) + " blocks", (width / 2) + 5, (height/2) + 5, 0xffffff);
+        MC.fontRenderer.drawString("Health: " + String.format("%.0f", round(animal.getMaxHealth(),0)), (width / 2) + 5, (height/2) + 15, 0xffffff);
+        MC.fontRenderer.drawString("Speed: " + String.format("%.1f", round((float)animal.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() * 43 ,1)) + " blocks/sec", (width / 2) + 5, (height/2) + 25, 0xffffff);
         
         GlStateManager.enableDepth();
         GL11.glPopMatrix();
