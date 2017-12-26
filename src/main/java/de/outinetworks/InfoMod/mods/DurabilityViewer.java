@@ -1,77 +1,74 @@
 package de.outinetworks.InfoMod.mods;
 
-import org.lwjgl.opengl.GL11;
-
+import de.outinetworks.InfoMod.config.InfoModConfig;
+import ibxm.Player;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.NonNullList;
+import org.lwjgl.opengl.GL11;
+
+import javax.security.auth.login.Configuration;
 
 public class DurabilityViewer
 {
-	
-	public static RenderItem itemRender;
-	int width;
-	int height;
-	Minecraft MC;
+	private Minecraft MC;
 	
 	public DurabilityViewer(Minecraft mc)
 	{
 		MC = mc;
-		itemRender = MC.getRenderItem();
-		ScaledResolution scaled = new ScaledResolution(MC);
-		width = scaled.getScaledWidth();
-		height = scaled.getScaledHeight();
-		
-		EntityPlayer player = MC.player;
-		GL11.glPushMatrix();
+        if(InfoModConfig.showHotBarDurability) DrawHotBarOverlay(MC.player);
+        if(InfoModConfig.showArmorDurability) DrawArmor(MC.player.getArmorInventoryList());
+	}
+
+	private void DrawHotBarOverlay(EntityPlayer player)
+    {
+        ScaledResolution scaled = new ScaledResolution(MC);
+        int width = scaled.getScaledWidth();
+        int height = scaled.getScaledHeight();
+
+        GL11.glPushMatrix();
         GlStateManager.disableDepth();
         GL11.glScalef(0.5F, 0.5F, 0.5F);
-        
-		for (int SlotID = 0; SlotID <= 8; SlotID ++)
-		{	
-			ItemStack HotbarItem = player.inventory.getStackInSlot(SlotID);
-			// check if Tool
-			if (HotbarItem != null)
-			{
-				if (HotbarItem.getMaxDamage() > 0)
-				{
-					int damage = HotbarItem.getMaxDamage() - HotbarItem.getItemDamage();
-					int color;
-					
-					if (damage > HotbarItem.getMaxDamage() / 4)
-						color = 0x00ff00;
-					else
-						color = 0xff0000;
-					
-					MC.fontRenderer.drawString(Integer.toString(damage), (((width / 2) - 88) + (SlotID * 20)) * 2, (height - 18) * 2, color);
-					
-					if (HotbarItem.getItem().equals(Items.BOW))
-					{
-						int ArrowCount = GetIventoryArrowCount(player);
-						
-						if(HasInfinity(HotbarItem) && ArrowCount > 0)
-							MC.fontRenderer.drawString(Character.toString('\u221e'), (((width / 2) - 78) + (SlotID * 20)) * 2, (height - 10) * 2, 0xdddddd);
-						else
-							MC.fontRenderer.drawString(Integer.toString(ArrowCount), (((width / 2) - 83) + (SlotID * 20)) * 2, (height - 10) * 2, 0xdddddd);
-					}
-						
-				}
-			}
-		}
-		GL11.glScalef(1F, 1F, 1F);
+
+        for (int SlotID = 0; SlotID <= 8; SlotID ++)
+        {
+            ItemStack HotBarItem = player.inventory.getStackInSlot(SlotID);
+            // check if Tool
+            if (HotBarItem.getMaxDamage() > 0)
+            {
+                int damage = HotBarItem.getMaxDamage() - HotBarItem.getItemDamage();
+                int color;
+
+                if (damage > HotBarItem.getMaxDamage() / 4)
+                    color = 0x00ff00;
+                else
+                    color = 0xff0000;
+
+                MC.fontRenderer.drawString(Integer.toString(damage), (((width / 2) - 88) + (SlotID * 20)) * 2, (height - 18) * 2, color);
+
+                if (HotBarItem.getItem().equals(Items.BOW))
+                {
+                    int ArrowCount = GetInventoryArrowCount(player);
+
+                    if(HasInfinity(HotBarItem) && ArrowCount > 0)
+                        MC.fontRenderer.drawString(Character.toString('\u221e'), (((width / 2) - 78) + (SlotID * 20)) * 2, (height - 10) * 2, 0xdddddd);
+                    else
+                        MC.fontRenderer.drawString(Integer.toString(ArrowCount), (((width / 2) - 83) + (SlotID * 20)) * 2, (height - 10) * 2, 0xdddddd);
+                }
+
+            }
+        }
+        GL11.glScalef(1F, 1F, 1F);
         GlStateManager.enableDepth();
         GL11.glPopMatrix();
-        
-        DrawArmor(player.getArmorInventoryList());
-	}
-	
+    }
+
+
 	private void DrawArmor(Iterable<ItemStack> armorInventory)
 	{
 		int i = 0;
@@ -85,6 +82,7 @@ public class DurabilityViewer
 	
 	private void DrawArmorItem(ItemStack ArmorItem, int x, int y)
 	{
+        RenderItem itemRender = MC.getRenderItem();
 		GL11.glPushMatrix();
         GlStateManager.disableDepth();
         GL11.glScalef(1F, 1F, 1F);
@@ -106,14 +104,14 @@ public class DurabilityViewer
         GL11.glPopMatrix();
 	}
 	
-	private int GetIventoryArrowCount(EntityPlayer player)
+	private int GetInventoryArrowCount(EntityPlayer player)
 	{
 		int count = 0;
 		
 		for (int Slot = 0; Slot < player.inventory.getSizeInventory(); Slot++)
 		{
 			ItemStack Stack = player.inventory.getStackInSlot(Slot);
-			if (Stack != null && Stack.getItem().equals(Items.ARROW))
+			if (Stack.getItem().equals(Items.ARROW))
 				count += Stack.getCount();
 		}
 		return count;
@@ -123,10 +121,10 @@ public class DurabilityViewer
 	{
 		if(item.isItemEnchanted())
 		{
-			NBTTagList enchlist = item.getEnchantmentTagList();
-			for(int i = 0; i < enchlist.tagCount(); i++)
-	        {
-				if (enchlist.getCompoundTagAt(i).getShort("id") == Enchantment.getEnchantmentID(Enchantment.getEnchantmentByLocation("infinity")))
+			NBTTagList enchantmentList = item.getEnchantmentTagList();
+			for(int i = 0; i < enchantmentList.tagCount(); i++)
+			{
+				if (enchantmentList.getCompoundTagAt(i).getShort("id") == 51)
 					return true;
 	        }
 			return false;

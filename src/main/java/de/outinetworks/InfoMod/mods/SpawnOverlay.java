@@ -18,18 +18,19 @@ import net.minecraft.world.chunk.Chunk;
 public class SpawnOverlay
 {
 	
-	public static boolean Enabled = false;
-	private static double dMarkerOffset = 0.02;
-	private static Entity dummyEntity = new EntityPig(null);
+	private static boolean Enabled = false;
 	
 	public static void ToggleEnabled()
     {
     	Enabled = !Enabled;	
     }
-	
+
+    /**
+     * @param entity DummyEntity
+     */
 	public static void renderLighting(Entity entity)
 	{
-		if (Enabled == false) return;
+		if (!Enabled) return;
 		
 		GlStateManager.disableTexture2D();
         GlStateManager.disableLighting();
@@ -62,6 +63,7 @@ public class SpawnOverlay
                     if (spawnMode == 1) GlStateManager.color(1, 1, 0);
                     else GlStateManager.color(1, 0, 0);
 
+                    double dMarkerOffset = 0.02;
                     GL11.glVertex3d(x, y + dMarkerOffset, z);
                     GL11.glVertex3d(x + 1, y + dMarkerOffset, z + 1);
                     GL11.glVertex3d(x + 1, y + dMarkerOffset, z);
@@ -73,10 +75,19 @@ public class SpawnOverlay
         GlStateManager.enableLighting();
         GlStateManager.enableTexture2D();
 	}
-	
+
+    /**
+     * @param chunk Chunk
+     * @param x X
+     * @param y Y
+     * @param z Z
+     * @return SpawnMode
+     */
 	private static int getSpawnMode(Chunk chunk, int x, int y, int z) {
         World world = chunk.getWorld();
         BlockPos pos = new BlockPos(x, y, z);
+
+        Entity dummyEntity = new EntityPig(world);
         
         // can Spawn something on Block / World ?
         if (!WorldEntitySpawner.canCreatureTypeSpawnAtLocation(SpawnPlacementType.ON_GROUND, world, pos) || chunk.getLightFor(EnumSkyBlock.BLOCK, pos) >= 8) return 0;

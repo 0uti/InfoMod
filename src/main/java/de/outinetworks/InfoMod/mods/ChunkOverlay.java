@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 
 public class ChunkOverlay
 {
-
 	private static int OverlayMode;
 	
 	public static void ToggleMode()
@@ -15,10 +14,10 @@ public class ChunkOverlay
 		OverlayMode = (OverlayMode + 1)%3;
     }
 
-	
 	public static void renderBounds(Entity entity)
 	{
-        if (OverlayMode == 0)	return;
+        if (OverlayMode == 0) return;
+
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

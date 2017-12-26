@@ -10,7 +10,6 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'eclipse'
 
-version = "1.12.1"
 group= "de.outinetworks.InfoMod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "InfoMod"
 
@@ -20,30 +19,30 @@ compileJava {
     sourceCompatibility = targetCompatibility = "1.8"
 }
 
+// Define properties file
+ext.configFile = file "build.properties"
 
-ext.build_number = System.getenv('BUILD_NUMBER')
-if(!build_number) {
-    ext.build_number = System.getenv('TRAVIS_BUILD_NUMBER')
+configFile.withReader {
+    // Load config.  It shall from now be referenced as simply config or project.config
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
 }
 
-if(build_number) {
-    version = version + "-" + build_number
-} else {
-    version = version
-}
+version = "${project.config.mod_version}." + (System.getenv("BUILD_NUMBER") ?: "1")
 
+println config.mcversion + "-" + config.forge_version
+// Setup the forge minecraft plugin data. Specify the preferred forge/minecraft version here
 minecraft {
-    version = "1.12.1-14.22.0.2462"
+    version = config.mcversion + "-" + config.forge_version
+    mappings = config.mappings
     runDir = "run"
-    
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "snapshot_20170624"
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    replace '${mod_version}', project.config.mod_version
+    makeObfSourceJar = false
 }
+
+version = "${project.minecraft.version}-${project.version}"
+
 
 dependencies {
     // for more info...
@@ -51,22 +50,22 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 }
 
-processResources
-{
+processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+    inputs.property "mcversion", project.config.mcversion
 
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
+
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version': project.version, 'mcversion': project.config.mcversion
     }
-        
-    // copy everything else, thats not the mcmod.info
+
+    // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
 }
+

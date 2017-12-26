@@ -20,12 +20,11 @@ import net.minecraft.entity.passive.EntitySkeletonHorse;
 import net.minecraft.entity.passive.EntityZombieHorse;
 
 public class AnimalInfo {
-
-	static int width;
-	static int height;
-	static Minecraft MC;
+	private static int width;
+	private static int height;
+	private static Minecraft MC;
 	
-	public static void renderInfoBox(Entity entity)
+	public static void renderInfoBox()
 	{
 		MC = Minecraft.getMinecraft();
 		ScaledResolution scaled = new ScaledResolution(MC);
@@ -36,7 +35,7 @@ public class AnimalInfo {
 		try {
 			target = Minecraft.getMinecraft().objectMouseOver.entityHit;
 		}
-		catch(Exception e) {
+		catch(Exception ignored) {
 			
 		}
 		if (target == null) return;
@@ -85,7 +84,7 @@ public class AnimalInfo {
 		return (-0.1817584952 * Math.pow(jumpStrength, 3)) + (3.689713992 * Math.pow(jumpStrength, 2)) + (2.128599134 * jumpStrength) - 0.343930367;
 	}
 	
-	public static double round(double value, int places) {
+	private static double round(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
 
 	    BigDecimal bd = new BigDecimal(value);
