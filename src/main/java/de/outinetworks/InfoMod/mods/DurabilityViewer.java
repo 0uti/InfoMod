@@ -1,7 +1,6 @@
 package de.outinetworks.InfoMod.mods;
 
 import de.outinetworks.InfoMod.config.InfoModConfig;
-import ibxm.Player;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -11,8 +10,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import org.lwjgl.opengl.GL11;
-
-import javax.security.auth.login.Configuration;
 
 public class DurabilityViewer
 {

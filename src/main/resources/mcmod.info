@@ -3,7 +3,7 @@
   "modid": "infomod",
   "name": "InfoMod",
   "description": "Shows a spawn overlay and chunk grids.",
-  "version": "${version}",
+  "version": "${mod_version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
