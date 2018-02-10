@@ -1,9 +1,9 @@
 [
 {
-  "modid": "InfoMod",
+  "modid": "infomod",
   "name": "InfoMod",
-  "description": "InfoMod.",
-  "version": "${version}",
+  "description": "Shows a spawn overlay and chunk grids.",
+  "version": "${mod_version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
