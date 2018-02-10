@@ -34,7 +34,6 @@ configFile.withReader {
 }
 
 def modversion = "${project.config.mod_version}." + (System.getenv("BUILD_NUMBER") ?: "1")
-println config.mcversion + "-" + config.forge_version
 
 // Setup the forge minecraft plugin data. Specify the preferred forge/minecraft version here
 minecraft {
@@ -45,7 +44,7 @@ minecraft {
     makeObfSourceJar = false
 }
 
-version = "${project.minecraft.version}-${project.version}"
+version = project.minecraft.version + "-" + modversion
 
 dependencies {
     // for more info...
