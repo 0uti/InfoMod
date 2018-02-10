@@ -19,7 +19,7 @@ public class SpawnOverlay
 {
 	
 	private static boolean Enabled = false;
-
+    private static Entity dummyEntity;
     public static void ToggleEnabled()
     {
     	Enabled = !Enabled;	
@@ -43,6 +43,8 @@ public class SpawnOverlay
         int x1 = (int) entity.posX;
         int z1 = (int) entity.posZ;
         int y1 = (int) normalize(entity.posY, 16, world.getHeight() - 16);
+
+        dummyEntity = new EntityPig(world);
 
         // 16 blocks in each direction
         // make it configable ?
@@ -86,8 +88,6 @@ public class SpawnOverlay
     private static int getSpawnMode(Chunk chunk, int x, int y, int z) {
         World world = chunk.getWorld();
         BlockPos pos = new BlockPos(x, y, z);
-
-        Entity dummyEntity = new EntityPig(world);
 
         // can Spawn something on Block / World ?
         if (!WorldEntitySpawner.canCreatureTypeSpawnAtLocation(SpawnPlacementType.ON_GROUND, world, pos) || chunk.getLightFor(EnumSkyBlock.BLOCK, pos) >= 8) return 0;
