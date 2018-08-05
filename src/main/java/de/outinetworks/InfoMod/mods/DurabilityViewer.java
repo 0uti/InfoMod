@@ -34,37 +34,41 @@ public class DurabilityViewer
 
         for (int SlotID = 0; SlotID <= 8; SlotID ++)
         {
-            ItemStack HotBarItem = player.inventory.getStackInSlot(SlotID);
-            // check if Tool
-            if (HotBarItem.getMaxDamage() > 0)
-            {
-                int damage = HotBarItem.getMaxDamage() - HotBarItem.getItemDamage();
-                int color;
-
-                if (damage > HotBarItem.getMaxDamage() / 4)
-                    color = 0x00ff00;
-                else
-                    color = 0xff0000;
-
-                MC.fontRenderer.drawString(Integer.toString(damage), (((width / 2) - 88) + (SlotID * 20)) * 2, (height - 18) * 2, color);
-
-                if (HotBarItem.getItem().equals(Items.BOW))
-                {
-                    int ArrowCount = GetInventoryArrowCount(player);
-
-                    if(HasInfinity(HotBarItem) && ArrowCount > 0)
-                        MC.fontRenderer.drawString(Character.toString('\u221e'), (((width / 2) - 78) + (SlotID * 20)) * 2, (height - 10) * 2, 0xdddddd);
-                    else
-                        MC.fontRenderer.drawString(Integer.toString(ArrowCount), (((width / 2) - 83) + (SlotID * 20)) * 2, (height - 10) * 2, 0xdddddd);
-                }
-
-            }
+            DrawHotBarItemOverlay(player, width, height, SlotID);
         }
         GL11.glScalef(1F, 1F, 1F);
         GlStateManager.enableDepth();
         GL11.glPopMatrix();
     }
 
+    private void DrawHotBarItemOverlay(EntityPlayer player, int width, int height, int SlotID)
+    {
+        ItemStack HotBarItem = player.inventory.getStackInSlot(SlotID);
+        // check if Tool
+        if (HotBarItem.getMaxDamage() > 0)
+        {
+            int damage = HotBarItem.getMaxDamage() - HotBarItem.getItemDamage();
+            int color;
+
+            if (damage > HotBarItem.getMaxDamage() / 4)
+                color = 0x00ff00;
+            else
+                color = 0xff0000;
+
+            MC.fontRenderer.drawString(Integer.toString(damage), (((width / 2) - 88) + (SlotID * 20)) * 2, (height - 18) * 2, color);
+
+            if (HotBarItem.getItem().equals(Items.BOW))
+            {
+                int ArrowCount = GetInventoryArrowCount(player);
+
+                if(HasInfinity(HotBarItem) && ArrowCount > 0)
+                    MC.fontRenderer.drawString(Character.toString('\u221e'), (((width / 2) - 78) + (SlotID * 20)) * 2, (height - 10) * 2, 0xdddddd);
+                else
+                    MC.fontRenderer.drawString(Integer.toString(ArrowCount), (((width / 2) - 83) + (SlotID * 20)) * 2, (height - 10) * 2, 0xdddddd);
+            }
+
+        }
+    }
 
 	private void DrawArmor(Iterable<ItemStack> armorInventory)
 	{
