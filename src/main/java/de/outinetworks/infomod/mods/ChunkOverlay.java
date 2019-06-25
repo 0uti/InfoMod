@@ -1,8 +1,9 @@
-package de.outinetworks.InfoMod.mods;
+package de.outinetworks.infomod.mods;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 
 public class ChunkOverlay
@@ -18,7 +19,7 @@ public class ChunkOverlay
 	{
         if (OverlayMode == 0) return;
 
-        GlStateManager.disableTexture2D();
+        GlStateManager.disableTexture();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.disableLighting();
@@ -51,7 +52,7 @@ public class ChunkOverlay
 
                 double dist = Math.pow(1.5, -(ChunkX * ChunkX + ChunkZ * ChunkZ));
 
-                GlStateManager.color(0.9F, 0, 0, (float) dist);
+                GlStateManager.color4f(0.9F, 0, 0, (float) dist);
                 if (ChunkX >= 0 && ChunkZ >= 0)
                 {
                 	GL11.glVertex3d(x2, y1, z2);
@@ -90,7 +91,7 @@ public class ChunkOverlay
                         y1 = y2 - dy;
                     }
                     
-                    GlStateManager.color(0, 0.9F, 0, 0.4F);
+                    GlStateManager.color4f(0, 0.9F, 0, 0.4F);
                     for (double y = (int) y1; y <= y2; y++)
                     {
                     	// z1 -> z2 (x1 side)
@@ -127,6 +128,6 @@ public class ChunkOverlay
         GL11.glEnd();
         GlStateManager.enableLighting();
         GlStateManager.disableBlend();
-        GlStateManager.enableTexture2D();
+        GlStateManager.enableTexture();
     }
 }

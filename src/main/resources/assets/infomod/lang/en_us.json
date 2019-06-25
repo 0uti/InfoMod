@@ -1,0 +1,11 @@
+{
+
+    "infomod.key.category": "InfoMod",
+    "infomod.key.spawn_overlay": "Spawn Overlay",
+    "infomod.key.chunk_overlay": "Chunk Grid",
+
+    "infomod.config.title": "InfoMod Settings",
+    "infomod.config.armordurability": "Armor Durability",
+    "infomod.config.hotbardurability": "Hotbar Item Durability",
+    "infomod.config.animalinfo": "Animal Info Overlay"
+}

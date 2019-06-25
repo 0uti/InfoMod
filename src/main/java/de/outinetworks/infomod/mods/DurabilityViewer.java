@@ -1,15 +1,14 @@
-package de.outinetworks.InfoMod.mods;
+package de.outinetworks.infomod.mods;
 
-import de.outinetworks.InfoMod.config.InfoModConfig;
+import com.mojang.blaze3d.platform.GlStateManager;
+import de.outinetworks.infomod.config.InfoModConfig;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumHandSide;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.HandSide;
 import org.lwjgl.opengl.GL11;
 
 public class DurabilityViewer
@@ -19,36 +18,39 @@ public class DurabilityViewer
 	public DurabilityViewer(Minecraft mc)
 	{
 		MC = mc;
-        if(InfoModConfig.showHotBarDurability) DrawHotBarOverlay(MC.player);
-        if(InfoModConfig.showArmorDurability) DrawArmor(MC.player.getArmorInventoryList());
+        if(InfoModConfig.GENERAL.showHotBarDurability.get()) DrawHotBarOverlay(MC.player);
+        if(InfoModConfig.GENERAL.showArmorDurability.get()) DrawArmor(MC.player.getArmorInventoryList());
 	}
 
-	private void DrawHotBarOverlay(EntityPlayer player)
+	private void DrawHotBarOverlay(PlayerEntity player)
     {
-        ScaledResolution scaled = new ScaledResolution(MC);
-        int width = scaled.getScaledWidth();
-        int height = scaled.getScaledHeight();
+
+
+		int width = MC.mainWindow.getScaledWidth();
+		int height = MC.mainWindow.getScaledHeight();
+
+
 
         GL11.glPushMatrix();
-        GlStateManager.disableDepth();
+        GlStateManager.disableDepthTest();
         GL11.glScalef(0.5F, 0.5F, 0.5F);
 
         for (int SlotID = 0; SlotID <= 8; SlotID ++)
         {
             DrawHotBarItemOverlay(player, width, height, player.inventory.getStackInSlot(SlotID), SlotID * 20);
         }
-        DrawHotBarItemOverlay(player, width, height, player.getHeldItemOffhand(), player.getPrimaryHand() == EnumHandSide.RIGHT ? (-1 * 20 - 9) : (9 * 20 + 9));
+        DrawHotBarItemOverlay(player, width, height, player.getHeldItemOffhand(), player.getPrimaryHand() == HandSide.RIGHT ? (-1 * 20 - 9) : (9 * 20 + 9));
         GL11.glScalef(1F, 1F, 1F);
-        GlStateManager.enableDepth();
+        GlStateManager.enableDepthTest();
         GL11.glPopMatrix();
     }
 
-    private void DrawHotBarItemOverlay(EntityPlayer player, int width, int height, ItemStack HotBarItem, int xOffset)
+    private void DrawHotBarItemOverlay(PlayerEntity player, int width, int height, ItemStack HotBarItem, int xOffset)
     {
         // check if Tool
         if (HotBarItem.getMaxDamage() > 0)
         {
-            int damage = HotBarItem.getMaxDamage() - HotBarItem.getItemDamage();
+            int damage = HotBarItem.getMaxDamage() - HotBarItem.getDamage();
             int color;
 
             if (damage > HotBarItem.getMaxDamage() / 4)
@@ -84,15 +86,15 @@ public class DurabilityViewer
 	
 	private void DrawArmorItem(ItemStack ArmorItem, int x, int y)
 	{
-        RenderItem itemRender = MC.getRenderItem();
+		ItemRenderer itemRender = MC.getItemRenderer();
 		GL11.glPushMatrix();
-        GlStateManager.disableDepth();
+        GlStateManager.disableDepthTest();
         GL11.glScalef(1F, 1F, 1F);
         
         if (ArmorItem != null)
         {
         	itemRender.renderItemIntoGUI(ArmorItem, x, y);
-        	int damage = ArmorItem.getMaxDamage() - ArmorItem.getItemDamage();
+        	int damage = ArmorItem.getMaxDamage() - ArmorItem.getDamage();
 			int color;
 			
 			if (damage > ArmorItem.getMaxDamage() / 4)
@@ -102,11 +104,11 @@ public class DurabilityViewer
 
 			MC.fontRenderer.drawString(Integer.toString(damage), x + 17, y + 5 , color);
     	}
-        GlStateManager.enableDepth();
+        GlStateManager.enableDepthTest();
         GL11.glPopMatrix();
 	}
 	
-	private int GetInventoryArrowCount(EntityPlayer player)
+	private int GetInventoryArrowCount(PlayerEntity player)
 	{
 		int count = 0;
 		
@@ -121,12 +123,12 @@ public class DurabilityViewer
 	
 	private boolean HasInfinity(ItemStack item)
 	{
-		if(item.isItemEnchanted())
+		if(item.isEnchanted())
 		{
-			NBTTagList enchantmentList = item.getEnchantmentTagList();
-			for(int i = 0; i < enchantmentList.tagCount(); i++)
+			ListNBT enchantmentList = item.getEnchantmentTagList();
+			for (int i = 0; i < enchantmentList.size(); i++)
 			{
-				if (enchantmentList.getCompoundTagAt(i).getShort("id") == 51)
+				if (enchantmentList.getCompound(i).getShort("id") == 51)
 					return true;
 	        }
 			return false;
