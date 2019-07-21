@@ -1,7 +1,6 @@
 package de.outinetworks.infomod.mods;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.entity.Entity;

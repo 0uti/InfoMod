@@ -1,7 +1,6 @@
 package de.outinetworks.infomod.mods;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.PigEntity;
@@ -92,7 +91,7 @@ public class SpawnOverlay
         BlockPos pos = new BlockPos(x, y, z);
         
         // can Spawn something on Block / World ?
-        if (!WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, world, pos, EntityType.PIG) || chunk.func_217307_e().getLightEngine(LightType.BLOCK).getLightFor(pos) >= 8) return 0;
+        if (!WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, world, pos, EntityType.PIG) || chunk.getWorldLightManager().getLightEngine(LightType.BLOCK).getLightFor(pos) >= 8) return 0;
 
         AxisAlignedBB aabb = new AxisAlignedBB(x+0.2, y+0.01, z+0.2, x+0.8, y+1.8, z+0.8);
 
@@ -108,7 +107,7 @@ public class SpawnOverlay
 
 
         // sky visible ?
-        if (chunk.func_217307_e().getLightEngine(LightType.SKY).getLightFor(pos) >= 8) return 1;
+        if (chunk.getWorldLightManager().getLightEngine(LightType.SKY).getLightFor(pos) >= 8) return 1;
         
         // no light from sun.
         return 2;
