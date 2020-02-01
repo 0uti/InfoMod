@@ -2,26 +2,19 @@ package de.outinetworks.infomod.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-//@Config.LangKey("infomod.config.title")
-public class InfoModConfig {
+public class InfoModConfig
+{
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final General GENERAL = new General(BUILDER);
 
-
-
-
-
-
-
-
-
-    public static class General {
+    public static class General
+    {
         public final ForgeConfigSpec.BooleanValue showArmorDurability;
         public final ForgeConfigSpec.BooleanValue showHotBarDurability;
         public final ForgeConfigSpec.BooleanValue showAnimalInfo;
 
-
-        General(ForgeConfigSpec.Builder builder) {
+        General(ForgeConfigSpec.Builder builder)
+        {
             builder.push("general");
             showArmorDurability = builder
                     .comment("Show armor durability.")
@@ -40,15 +33,7 @@ public class InfoModConfig {
 
             builder.pop();
         }
-
-
-
     }
 
-
-
-
-
     public static final ForgeConfigSpec spec = BUILDER.build();
-
 }

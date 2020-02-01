@@ -1,25 +1,23 @@
 package de.outinetworks.infomod.mods;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.PigEntity;
-import net.minecraft.world.LightType;
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.spawner.WorldEntitySpawner;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.spawner.WorldEntitySpawner;
+import org.lwjgl.opengl.GL11;
 
 
 public class SpawnOverlay
 {
-	
 	private static boolean Enabled = false;
     private static Entity dummyEntity;
 	public static void ToggleEnabled()
@@ -33,18 +31,16 @@ public class SpawnOverlay
 	public static void renderLighting(Entity entity)
 	{
 		if (!Enabled) return;
-		
-		GlStateManager.disableTexture();
-        GlStateManager.disableLighting();
-        GL11.glLineWidth(5F);
+
+        RenderSystem.lineWidth(5F);
         GL11.glBegin(GL11.GL_LINES);
 
-        GlStateManager.color3f(1, 0, 0);
+        RenderSystem.color3f(1, 0, 0);
 
         World world = entity.getEntityWorld();
-        int x1 = (int) entity.posX;
-        int z1 = (int) entity.posZ;
-        int y1 = (int) normalize(entity.posY, 16, world.getHeight() - 16);
+        int x1 = (int) entity.getPosX();
+        int z1 = (int) entity.getPosZ();
+        int y1 = (int) normalize(entity.getPosY(), 16, world.getHeight() - 16);
 
         dummyEntity = new PigEntity(EntityType.PIG,world);
 
@@ -63,8 +59,8 @@ public class SpawnOverlay
                 {
                     int spawnMode = getSpawnMode(chunk, x, y, z);
                     if (spawnMode == 0) continue;
-                    if (spawnMode == 1) GlStateManager.color3f(1, 1, 0);
-                    else GlStateManager.color3f(1, 0, 0);
+                    if (spawnMode == 1) RenderSystem.color3f(1, 1, 0);
+                    else RenderSystem.color3f(1, 0, 0);
 
                     double dMarkerOffset = 0.02;
                     GL11.glVertex3d(x, y + dMarkerOffset, z);
@@ -75,8 +71,6 @@ public class SpawnOverlay
             }
         }
         GL11.glEnd();
-        GlStateManager.enableLighting();
-        GlStateManager.enableTexture();
 	}
 
     /**

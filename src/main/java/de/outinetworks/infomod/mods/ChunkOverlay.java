@@ -1,9 +1,8 @@
 package de.outinetworks.infomod.mods;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import org.lwjgl.opengl.GL11;
-
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.entity.Entity;
+import org.lwjgl.opengl.GL11;
 
 public class ChunkOverlay
 {
@@ -18,11 +17,7 @@ public class ChunkOverlay
 	{
         if (OverlayMode == 0) return;
 
-        GlStateManager.disableTexture();
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager.disableLighting();
-        GL11.glLineWidth(3F);
+        RenderSystem.lineWidth(3F);
         GL11.glBegin(GL11.GL_LINES);
 
         for (int ChunkX = -4; ChunkX <= 4; ChunkX++)
@@ -35,7 +30,7 @@ public class ChunkOverlay
                 double z2 = z1 + 16;
 
                 double dy = 128;
-                double y1 = Math.floor(entity.posY - dy / 2);
+                double y1 = Math.floor(entity.getPosY() - dy / 2);
                 double y2 = y1 + dy;
                 if (y1 < 0)
                 {
@@ -51,7 +46,7 @@ public class ChunkOverlay
 
                 double dist = Math.pow(1.5, -(ChunkX * ChunkX + ChunkZ * ChunkZ));
 
-                GlStateManager.color4f(0.9F, 0, 0, (float) dist);
+                RenderSystem.color4f(0.9F, 0, 0, (float) dist);
                 if (ChunkX >= 0 && ChunkZ >= 0)
                 {
                 	GL11.glVertex3d(x2, y1, z2);
@@ -76,7 +71,7 @@ public class ChunkOverlay
                 if (OverlayMode == 2 && ChunkX == 0 && ChunkZ == 0)
                 {
                     dy = 32;
-                    y1 = Math.floor(entity.posY - dy / 2);
+                    y1 = Math.floor(entity.getPosY() - dy / 2);
                     y2 = y1 + dy;
                     if (y1 < 0)
                     {
@@ -90,7 +85,7 @@ public class ChunkOverlay
                         y1 = y2 - dy;
                     }
                     
-                    GlStateManager.color4f(0, 0.9F, 0, 0.4F);
+                    RenderSystem.color4f(0, 0.9F, 0, 0.4F);
                     for (double y = (int) y1; y <= y2; y++)
                     {
                     	// z1 -> z2 (x1 side)
@@ -125,8 +120,5 @@ public class ChunkOverlay
             }
         }
         GL11.glEnd();
-        GlStateManager.enableLighting();
-        GlStateManager.disableBlend();
-        GlStateManager.enableTexture();
     }
 }

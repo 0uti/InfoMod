@@ -8,10 +8,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class KeyPressHandler
 {
-	@SubscribeEvent
+    @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event)
-	{
-		if(InfoMod.ChunkOverlayKey.isPressed()) ChunkOverlay.ToggleMode();
-		if(InfoMod.SpawnOverlayKey.isPressed()) SpawnOverlay.ToggleEnabled();
-	}
+    {
+		if (InfoMod.ChunkOverlayKey.isPressed()) ChunkOverlay.ToggleMode();
+		if (InfoMod.SpawnOverlayKey.isPressed()) SpawnOverlay.ToggleEnabled();
+    }
 }

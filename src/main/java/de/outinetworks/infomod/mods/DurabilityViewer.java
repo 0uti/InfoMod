@@ -1,15 +1,14 @@
 package de.outinetworks.infomod.mods;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import de.outinetworks.infomod.config.InfoModConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.HandSide;
-import org.lwjgl.opengl.GL11;
 
 public class DurabilityViewer
 {
@@ -24,25 +23,21 @@ public class DurabilityViewer
 
 	private void DrawHotBarOverlay(PlayerEntity player)
     {
+		int width = MC.getMainWindow().getScaledWidth();
+		int height = MC.getMainWindow().getScaledHeight();
 
-
-		int width = MC.mainWindow.getScaledWidth();
-		int height = MC.mainWindow.getScaledHeight();
-
-
-
-        GL11.glPushMatrix();
-        GlStateManager.disableDepthTest();
-        GL11.glScalef(0.5F, 0.5F, 0.5F);
+		RenderSystem.pushMatrix();
+        RenderSystem.disableDepthTest();
+		RenderSystem.scalef(0.5F, 0.5F, 0.5F);
 
         for (int SlotID = 0; SlotID <= 8; SlotID ++)
         {
             DrawHotBarItemOverlay(player, width, height, player.inventory.getStackInSlot(SlotID), SlotID * 20);
         }
         DrawHotBarItemOverlay(player, width, height, player.getHeldItemOffhand(), player.getPrimaryHand() == HandSide.RIGHT ? (-1 * 20 - 9) : (9 * 20 + 9));
-        GL11.glScalef(1F, 1F, 1F);
-        GlStateManager.enableDepthTest();
-        GL11.glPopMatrix();
+		RenderSystem.scalef(1F, 1F, 1F);
+        RenderSystem.enableDepthTest();
+		RenderSystem.popMatrix();
     }
 
     private void DrawHotBarItemOverlay(PlayerEntity player, int width, int height, ItemStack HotBarItem, int xOffset)
@@ -69,7 +64,6 @@ public class DurabilityViewer
                 else
                     MC.fontRenderer.drawString(Integer.toString(ArrowCount), (((width / 2) - 83) + xOffset) * 2, (height - 10) * 2, 0xdddddd);
             }
-
         }
     }
 
@@ -87,9 +81,9 @@ public class DurabilityViewer
 	private void DrawArmorItem(ItemStack ArmorItem, int x, int y)
 	{
 		ItemRenderer itemRender = MC.getItemRenderer();
-		GL11.glPushMatrix();
-        GlStateManager.disableDepthTest();
-        GL11.glScalef(1F, 1F, 1F);
+		RenderSystem.pushMatrix();
+        RenderSystem.disableDepthTest();
+		RenderSystem.scalef(1F, 1F, 1F);
         
         if (ArmorItem != null)
         {
@@ -104,8 +98,8 @@ public class DurabilityViewer
 
 			MC.fontRenderer.drawString(Integer.toString(damage), x + 17, y + 5 , color);
     	}
-        GlStateManager.enableDepthTest();
-        GL11.glPopMatrix();
+        RenderSystem.enableDepthTest();
+		RenderSystem.popMatrix();
 	}
 	
 	private int GetInventoryArrowCount(PlayerEntity player)
@@ -131,9 +125,7 @@ public class DurabilityViewer
 				if (enchantmentList.getCompound(i).getShort("id") == 51)
 					return true;
 	        }
-			return false;
 		}
-		else
-			return false;
+		return false;
 	}
 }
